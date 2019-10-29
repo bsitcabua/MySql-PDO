@@ -1,0 +1,2 @@
+//insert data
+PDO_DB::query("insert into students values (?, ?, ?, ?)", array($name, $course, $year), "CREATE");
