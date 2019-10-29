@@ -1,0 +1,27 @@
+<?php
+class PDO_DB
+{
+	public static function query($sql, $params=array(), $trasnsactionType)
+	{
+		$rows = array();
+		try 
+		{
+			$conn = new PDO("mysql:host=localhost; dbname=databasename", "username", "password");
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cmd = $conn->prepare($sql);
+			$cmd->execute($params);
+			if ($trasnsactionType == "SELECT"){
+				$rows = $cmd->fetchAll();
+			}
+			else{
+				$rows = $conn->lastInsertId();
+			}
+			$conn = null;
+			unset($conn);
+		} 
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+		return $rows;
+	}
+}
